@@ -1,22 +1,26 @@
 
-import json
+import sqlite3
 
+conn = sqlite3.connect("masterPass.db")
 
-filename = "masterpass.txt"
+c = conn.cursor()
 
-def login(username, password):
-    contents = ''
-    try:
-        with open(filename, "r") as masterPass:
-            contents = json.loads(masterPass.read())
-    except FileNotFoundError:
-        print("Sorry, there was an error finding the required file for the application. Please try again!")
-    return contents[username] == password
+c.execute("""CREATE TABLE IF NOT EXISTS masterPasswords (
+    user text,
+    passw text
+    )""")
 
 def signup(username, password):
-    try:
-        with open(filename, "a") as masterPass:
-            masterPass.write(json.dumps({username : password}))
-    except FileNotFoundError:
-        msg = "Something went wrong while trying to find the file. Please try again."
-        print(msg)
+    c.execute("INSERT INTO masterPasswords VALUES ? ?", username, password)
+    conn.commit()
+    conn.close()
+
+def login(username, password):
+    c.execute("SELECT * FROM masterPasswords WHERE passw=? AND user=?", (password, username))
+    if passw == password and user == username:
+        return True
+    else:
+        return False
+
+    conn.commit()
+    conn.close()
