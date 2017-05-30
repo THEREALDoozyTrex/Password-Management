@@ -1,23 +1,18 @@
 import generate as gen
-import save as save
 import read as read
 import accountManagement as am
 #import clear as clear
 
-# DAY ONE: 169 LINES OF CODE
+#DAY ONE: 169 LINES OF CODE
 
 def account():
+    #print("To quit at any time type 'Q'.")
     loginOrSignup = input("Do you want to login (L) or signup (S): ")
     if loginOrSignup.upper() == "L":
         def tryLogin():
             usernameInput = input("Type in the username: ")
             masterPassInput = input("Type in the master password: ")
-            if am.login(usernameInput, masterPassInput) == usernameInput and masterPassInput:
-                #reMe = input("Do you want to remember this password (Y/N): ")
-                # TODO: REMEMBER ME
-                # if reMe.upper() == "Y":
-                    #rememberMe = True
-                    #run()
+            if am.login(usernameInput, masterPassInput) == usernameInput + masterPassInput:
                 run()
             else:
                 yayOrNay = input("Incorrect password. To try again type 'N' If you don't have an account, signup by typing 'S': ")
@@ -30,7 +25,6 @@ def account():
     elif loginOrSignup.upper() == "S":
         usernameSignup = input("Type in the username: ")
         masterPassSignup = input("Type in a master password: ")
-        am.signup(usernameSignup, masterPassSignup)
         run()
 
 def run():
@@ -45,13 +39,14 @@ def run():
         print(newPassword)
         saveOrNot = input("Would you like to save the password: ")
         if saveOrNot.upper() == "Y":
-            nameOfPassword = input("What is the passwords name?")
-            save.save(nameOfPassword, newPassword)
+            nameOfPassword = input("What is the passwords name? ")
+            usernameForPassword = input("What is the sites username? ")
+            am.add_password(username, nameOfPassword, usernameForPassword, newPassword)
             run()
         else:
             run()
     elif main.upper() == "R":
-        read.read()
+        am.get_passwords(username)
         run()
     '''elif main.upper() == "C":
         allOrOne = input("Clear all (ALL) passwords or one (ONE) (TYPE 'BACK' TO GO BACK): ")
@@ -63,3 +58,4 @@ def run():
             run()'''
 
 account()
+
