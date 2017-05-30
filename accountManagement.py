@@ -1,4 +1,3 @@
-
 import sqlite3
 
 conn = sqlite3.connect("masterPass.db")
@@ -10,17 +9,15 @@ c.execute("""CREATE TABLE IF NOT EXISTS masterPasswords (
     passw text
     )""")
 
-def signup(username, password):
-    c.execute("INSERT INTO masterPasswords VALUES ? ?", username, password)
-    conn.commit()
-    conn.close()
+def signup(user,passw):
+    c.execute("INSERT INTO masterPasswords (user, passw) VALUES (?, ?)", (user, passw))
 
 def login(username, password):
     c.execute("SELECT * FROM masterPasswords WHERE passw=? AND user=?", (password, username))
-    if passw == password and user == username:
-        return True
-    else:
-        return False
+    var1 = c.fetchall()
+
+    if var1 != []: return True
+    else: return False
 
     conn.commit()
     conn.close()
