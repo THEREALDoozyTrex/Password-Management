@@ -17,8 +17,8 @@ c.execute("""CREATE TABLE IF NOT EXISTS passwords (
 
 
 def add_password(master_username, password_name, username, password):
-    c.execute("INSERT INTO passwords (master_username, username, password) VALUES (?, ?, ?)",
-              (master_username, username, password))
+    c.execute("INSERT INTO passwords (master_username, username, password) VALUES (?, ?, ?, ?)",
+              (master_username, password_name, username, password))
     conn.commit()
 
 def get_passwords(master_username):
@@ -32,12 +32,12 @@ def signup(master_username, master_password):
               )
     conn.commit()
 
-def login(master_username, master_password):
+def login(m_username, m_password):
     c.execute("SELECT * FROM master_passwords WHERE master_username=? AND master_password=?",
-              (master_username, master_password)
+              (m_username, m_password)
               )
 
     if c.fetchall() != []:
-        return True
+        return m_username + m_password
     else:
         return False

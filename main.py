@@ -1,15 +1,16 @@
 import generate as gen
-import read as read
 import accountManagement as am
 #import clear as clear
 
 #DAY ONE: 169 LINES OF CODE
+
 
 def account():
     #print("To quit at any time type 'Q'.")
     loginOrSignup = input("Do you want to login (L) or signup (S): ")
     if loginOrSignup.upper() == "L":
         def tryLogin():
+            global usernameInput
             usernameInput = input("Type in the username: ")
             masterPassInput = input("Type in the master password: ")
             if am.login(usernameInput, masterPassInput) == usernameInput + masterPassInput:
@@ -25,6 +26,7 @@ def account():
     elif loginOrSignup.upper() == "S":
         usernameSignup = input("Type in the username: ")
         masterPassSignup = input("Type in a master password: ")
+        am.signup(usernameSignup, masterPassSignup)
         run()
 
 def run():
@@ -41,12 +43,12 @@ def run():
         if saveOrNot.upper() == "Y":
             nameOfPassword = input("What is the passwords name? ")
             usernameForPassword = input("What is the sites username? ")
-            am.add_password(username, nameOfPassword, usernameForPassword, newPassword)
+            am.add_password(usernameInput, nameOfPassword, usernameForPassword, newPassword)
             run()
         else:
             run()
     elif main.upper() == "R":
-        am.get_passwords(username)
+        am.get_passwords(usernameInput)
         run()
     '''elif main.upper() == "C":
         allOrOne = input("Clear all (ALL) passwords or one (ONE) (TYPE 'BACK' TO GO BACK): ")
